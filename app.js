@@ -10,22 +10,52 @@ const contactContent = "Scelerisque eleifend donec pretium vulputate sapien. Rho
 
 const app = express();
 
+const posts = [];
+
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
 app.get("/", function(req, res){
-  res.render("home", {homeContent: homeStartingContent});
+  res.render("home", {
+    homeContent: homeStartingContent,
+    posts: posts
+  });
 })
 
+app.get("/about", function(req, res){
+  res.render("about", {aboutContent: aboutContent});
+})
 
+app.get("/contact", function(req, res){
+  res.render("contact", {contactContent: contactContent});
+})
 
+app.get("/compose", function(req, res){
+  res.render("compose", {});
+})
 
+app.post("/compose", function(req, res){
+  let blogTitle = req.body.composeTitle;
+  let blogPost = req.body.composePost;
+  let post = {
+    title: blogTitle,
+    descPost: blogPost
+  }
+  posts.push(post);
+  res.redirect("/");
+})
 
-
-
-
-
+app.get("/post/:postId", function(req, res){
+  let postName = req.params.postId;
+  posts.forEach(function(a){
+    if(posts.title = postName){
+      console.log("Match success");
+    } else{
+      console.log("Failed");
+    }
+  })
+})
 
 
 
